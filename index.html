@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sillas Musicales</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      padding: 20px;
+      text-align: center;
+    }
+    h1 {
+      color: #333;
+    }
+    .contador {
+      font-size: 3rem;
+      margin: 20px 0;
+    }
+    button {
+      padding: 12px 20px;
+      font-size: 1rem;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      background: #2196f3;
+      color: white;
+      width: 90%;
+      max-width: 300px;
+    }
+    button:hover {
+      background: #0b7dda;
+    }
+    #listaPersonas button {
+      margin: 10px auto;
+      display: block;
+    }
+    .log {
+      margin-top: 30px;
+      padding: 15px;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+      font-size: 1rem;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 1.6rem;
+      }
+      .contador {
+        font-size: 2.5rem;
+      }
+      button {
+        font-size: 0.9rem;
+        padding: 10px;
+      }
+      .log {
+        font-size: 0.9rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Juego de Sillas Musicales</h1>
+  <p>Selecciona cuántas personas quedan en el juego y luego inicia la música.</p>
+
+  <div id="listaPersonas"></div>
+
+  <div class="contador" id="contador">⏳</div>
+
+  <button onclick="iniciarJuego()">Iniciar Música</button>
+  <button onclick="detenerJuego()">Detener Música Manualmente</button>
+
+  <div class="log" id="log">Esperando selección...</div>
+
+  <audio id="musica"></audio>
+
+  <script>
+  let timeout;
+  let personas = 12; // Número inicial
+
+  // Cargar lista de botones dinámicamente
+  function cargarLista() {
+    const lista = document.getElementById('listaPersonas');
+    lista.innerHTML = '';
+    for (let i = personas; i >= 2; i--) {
+      const btn = document.createElement('button');
+      btn.textContent = `Número de personas: ${i}`;
+      btn.style.display = 'block';
+      btn.style.margin = '10px auto';
+      btn.onclick = () => seleccionar(i);
+      lista.appendChild(btn);
+    }
+  }
+
+  function seleccionar(num) {
+    const log = document.getElementById('log');
+    window.personasSeleccionadas = num;
+    log.textContent = `✔ Seleccionado: ${num} personas (Canción ${13 - num})`;
+  }
+
+  function iniciarJuego() {
+    const musica = document.getElementById('musica');
+    const contador = document.getElementById('contador');
+    const log = document.getElementById('log');
+
+    // Canción según número de personas seleccionadas
+    const seleccionado = window.personasSeleccionadas || 12;
+    const indiceCancion = 13 - seleccionado; // 12→1, 11→2 ... 2→11
+
+    musica.src = `canciones/cancion${indiceCancion}.mp3`; // Ruta local
+    musica.play();
+    log.textContent = '🎵 La música está sonando...';
+
+    musica.onended = () => {
+  log.textContent = "⛔ ¡La música terminó!";
+  contador.textContent = "🪑";
+    };
+  }
+
+  function detenerJuego() {
+    const musica = document.getElementById('musica');
+    const log = document.getElementById('log');
+    const contador = document.getElementById('contador');
+
+    clearTimeout(timeout);
+    musica.pause();
+    musica.currentTime = 0;
+    log.textContent = '⛔ Música detenida manualmente.';
+    contador.textContent = '🪑';
+  }
+
+  cargarLista();
+</script>
+</body>
+</html>
