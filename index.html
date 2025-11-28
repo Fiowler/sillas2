@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Sillas Musicales</title>
+
   <style>
     body {
       font-family: Arial, sans-serif;
@@ -13,10 +14,6 @@
     }
     h1 {
       color: #333;
-    }
-    .contador {
-      font-size: 3rem;
-      margin: 20px 0;
     }
     button {
       padding: 12px 20px;
@@ -28,13 +25,11 @@
       color: white;
       width: 90%;
       max-width: 300px;
+      margin: 10px auto;
+      display: block;
     }
     button:hover {
       background: #0b7dda;
-    }
-    #listaPersonas button {
-      margin: 10px auto;
-      display: block;
     }
     .log {
       margin-top: 30px;
@@ -47,96 +42,64 @@
       margin-right: auto;
       font-size: 1rem;
     }
-
-    /* RESPONSIVE */
-    @media (max-width: 600px) {
-      h1 {
-        font-size: 1.6rem;
-      }
-      .contador {
-        font-size: 2.5rem;
-      }
-      button {
-        font-size: 0.9rem;
-        padding: 10px;
-      }
-      .log {
-        font-size: 0.9rem;
-      }
-    }
   </style>
 </head>
 <body>
-  <h1>Juego de Sillas Musicales</h1>
-  <p>Selecciona cuántas personas quedan en el juego y luego inicia la música.</p>
 
-  <div id="listaPersonas"></div>
+  <h1>Sillas Musicales</h1>
+  <p>Selecciona el número de personas y se cargará la canción correspondiente.</p>
 
-  <div class="contador" id="contador">⏳</div>
+  <!-- Lista de botones -->
+  <button onclick="document.getElementById('musica').src='canciones/cancion1.mp3'">
+    Número de personas: 12 (Canción 1)
+  </button>
 
-  <button onclick="iniciarJuego()">Iniciar Música</button>
-  <button onclick="detenerJuego()">Detener Música Manualmente</button>
+  <button onclick="document.getElementById('musica').src='canciones/cancion2.mp3'">
+    Número de personas: 11 (Canción 2)
+  </button>
 
-  <div class="log" id="log">Esperando selección...</div>
+  <button onclick="document.getElementById('musica').src='canciones/cancion3.mp3'">
+    Número de personas: 10 (Canción 3)
+  </button>
 
-  <audio id="musica"></audio>
+  <button onclick="document.getElementById('musica').src='canciones/cancion4.mp3'">
+    Número de personas: 9 (Canción 4)
+  </button>
 
-  <script>
-  let timeout;
-  let personas = 12; // Número inicial
+  <button onclick="document.getElementById('musica').src='canciones/cancion5.mp3'">
+    Número de personas: 8 (Canción 5)
+  </button>
 
-  // Cargar lista de botones dinámicamente
-  function cargarLista() {
-    const lista = document.getElementById('listaPersonas');
-    lista.innerHTML = '';
-    for (let i = personas; i >= 2; i--) {
-      const btn = document.createElement('button');
-      btn.textContent = `Número de personas: ${i}`;
-      btn.style.display = 'block';
-      btn.style.margin = '10px auto';
-      btn.onclick = () => seleccionar(i);
-      lista.appendChild(btn);
-    }
-  }
+  <button onclick="document.getElementById('musica').src='canciones/cancion6.mp3'">
+    Número de personas: 7 (Canción 6)
+  </button>
 
-  function seleccionar(num) {
-    const log = document.getElementById('log');
-    window.personasSeleccionadas = num;
-    log.textContent = `✔ Seleccionado: ${num} personas (Canción ${13 - num})`;
-  }
+  <button onclick="document.getElementById('musica').src='canciones/cancion7.mp3'">
+    Número de personas: 6 (Canción 7)
+  </button>
 
-  function iniciarJuego() {
-    const musica = document.getElementById('musica');
-    const contador = document.getElementById('contador');
-    const log = document.getElementById('log');
+  <button onclick="document.getElementById('musica').src='canciones/cancion8.mp3'">
+    Número de personas: 5 (Canción 8)
+  </button>
 
-    // Canción según número de personas seleccionadas
-    const seleccionado = window.personasSeleccionadas || 12;
-    const indiceCancion = 13 - seleccionado; // 12→1, 11→2 ... 2→11
+  <button onclick="document.getElementById('musica').src='canciones/cancion9.mp3'">
+    Número de personas: 4 (Canción 9)
+  </button>
 
-    musica.src = `canciones/cancion${indiceCancion}.mp3`; // Ruta local
-    musica.play();
-    log.textContent = '🎵 La música está sonando...';
+  <button onclick="document.getElementById('musica').src='canciones/cancion10.mp3'">
+    Número de personas: 3 (Canción 10)
+  </button>
 
-    musica.onended = () => {
-  log.textContent = "⛔ ¡La música terminó!";
-  contador.textContent = "🪑";
-    };
-  }
+  <button onclick="document.getElementById('musica').src='canciones/cancion11.mp3'">
+    Número de personas: 2 (Canción 11)
+  </button>
 
-  function detenerJuego() {
-    const musica = document.getElementById('musica');
-    const log = document.getElementById('log');
-    const contador = document.getElementById('contador');
+  <!-- Controles del audio -->
+  <div class="log">
+    <p>🎵 Controles manuales de música:</p>
+    <audio id="musica" controls></audio>
+  </div>
 
-    clearTimeout(timeout);
-    musica.pause();
-    musica.currentTime = 0;
-    log.textContent = '⛔ Música detenida manualmente.';
-    contador.textContent = '🪑';
-  }
-
-  cargarLista();
-</script>
 </body>
 </html>
+
